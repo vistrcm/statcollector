@@ -55,10 +55,8 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Get("/", index)
-
 	// RESTy routes for "data" resource
-	r.Route("/data/", func(r chi.Router) {
+	r.Route("/data", func(r chi.Router) {
 		r.Get("/", index)
 		r.Post("/", createHandler)
 	})
