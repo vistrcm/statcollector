@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-chi/chi"
 	"gopkg.in/mgo.v2"
 	"html"
 	"io"
@@ -13,11 +14,11 @@ import (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+	fmt.Fprintf(w, "Hello, %q. Collection : %q\n", html.EscapeString(r.URL.Path))
 }
 
 //createHandler handles records creation
-func createHandler(w http.ResponseWriter, r *http.Request, session *mgo.Session) {
+func createHandler(w http.ResponseWriter, r *http.Request, collection *mgo.Collection) {
 
 	record, err := newRecord(r)
 
@@ -28,7 +29,11 @@ func createHandler(w http.ResponseWriter, r *http.Request, session *mgo.Session)
 
 	log.Printf("Creating record: %+v", record)
 
-	//TODO: save record here
+	insertErr := collection.Insert(record)
+	if insertErr != nil {
+		http.Error(w, insertErr.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
@@ -68,12 +73,20 @@ func newRecord(r *http.Request) (*record, error) {
 }
 
 //makeHandler helps to pass mongo session to handle and makes sure that this is a copy of session
-func makeHandler(fn func(http.ResponseWriter, *http.Request, *mgo.Session), session *mgo.Session) http.HandlerFunc {
+func makeHandler(fn func(http.ResponseWriter, *http.Request, *mgo.Collection), session *mgo.Session) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// make new session
 		newSession := session.Copy()
 		defer newSession.Close()
 
-		fn(w, r, newSession)
+		collectionName := chi.URLParam(r, "collectionName")
+
+		if collectionName == "" {
+			collectionName = "default"
+		}
+
+		collection := newSession.DB("").C(collectionName)
+
+		fn(w, r, collection)
 	}
 }

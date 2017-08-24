@@ -24,7 +24,7 @@ func newRouter(session *mgo.Session) *chi.Mux {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	// RESTy routes for "data" resource
-	r.Route("/data", func(r chi.Router) {
+	r.Route("/{collectionName}", func(r chi.Router) {
 		r.Get("/", indexHandler)
 		r.Post("/", makeHandler(createHandler, session))
 	})
