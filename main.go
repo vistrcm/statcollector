@@ -19,7 +19,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
 }
 
-func createRecord(w http.ResponseWriter, r *http.Request) {
+func createHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Created")
 }
 
@@ -60,7 +60,7 @@ func main() {
 	// RESTy routes for "data" resource
 	r.Route("/data/", func(r chi.Router) {
 		r.Get("/", index)
-		r.Post("/", createRecord)
+		r.Post("/", createHandler)
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", r))
