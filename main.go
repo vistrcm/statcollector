@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"flag"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"gopkg.in/mgo.v2"
@@ -12,6 +13,8 @@ import (
 	"time"
 )
 
+var mongoUrl string
+
 func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
 }
@@ -19,11 +22,20 @@ func index(w http.ResponseWriter, r *http.Request) {
 func createRecord(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Created")
 }
+//initialize application
+func initialize() {
+	//	parse flags
+	flag.StringVar(&mongoUrl, "mongoUrl", "mongodb://localhost/stats", "db url")
+	flag.Parse()
+}
 
 func main() {
+	initialize()
+
+	log.Printf("db url %q", mongoUrl)
+
 	// get Mongo Session
-	session, err := mgo.Dial("mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@mongo/stats")
-	// session, err := mgo.Dial("mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@localhost/stats")
+	session, err := mgo.Dial(mongoUrl)
 	if err != nil {
 		panic(err)
 	}
