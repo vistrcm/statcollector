@@ -22,6 +22,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func createRecord(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Created")
 }
+
 //initialize application
 func initialize() {
 	//	parse flags
@@ -31,8 +32,7 @@ func initialize() {
 
 func main() {
 	initialize()
-
-	log.Printf("db url %q", mongoUrl)
+	log.Printf("starting with db url %q", mongoUrl)
 
 	// get Mongo Session
 	session, err := mgo.Dial(mongoUrl)
@@ -41,13 +41,14 @@ func main() {
 	}
 	defer session.Close()
 
+	// Configure http routing
 	r := chi.NewRouter()
 	// A good base middleware stack
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-	//r.Use(middleware.RedirectSlashes)
+	r.Use(middleware.RedirectSlashes)
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
@@ -57,7 +58,7 @@ func main() {
 	r.Get("/", index)
 
 	// RESTy routes for "data" resource
-	r.Route("/data", func(r chi.Router) {
+	r.Route("/data/", func(r chi.Router) {
 		r.Get("/", index)
 		r.Post("/", createRecord)
 	})
