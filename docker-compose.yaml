@@ -9,3 +9,7 @@ services:
       - ./mongofiles:/data/db
   collector:
     build: ./
+    depends_on:
+      - mongo
+    ports:
+      - 8080:8080
