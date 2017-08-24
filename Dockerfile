@@ -1,8 +1,7 @@
 # build application phase
 FROM golang:1.8.3 as builder
 WORKDIR /go/src/github.com/vistrcm/statcollector/
-#RUN go get -d -v golang.org/x/net/html
-COPY main.go .
+COPY ./ .
 RUN go build -a -o statcollector .
 
 # build image phase
