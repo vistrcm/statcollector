@@ -23,7 +23,7 @@ func newRouter() *chi.Mux {
 
 	// RESTy routes for "data" resource
 	r.Route("/data", func(r chi.Router) {
-		r.Get("/", index)
+		r.Get("/", indexHandler)
 		r.Post("/", createHandler)
 	})
 
