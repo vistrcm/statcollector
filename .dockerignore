@@ -2,3 +2,7 @@
 statcollector.iml
 # ignore local mongo files used for development
 mongofiles/
+
+# ignore vendor
+vendor/*/
+!vendor/vendor.json
