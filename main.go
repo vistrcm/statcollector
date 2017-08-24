@@ -1,24 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"flag"
 	"gopkg.in/mgo.v2"
-	"html"
 	"net/http"
 )
 
 var mongoUrl string
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-}
-
-func createHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Created")
-}
 
 //initialize application
 func initialize() {
