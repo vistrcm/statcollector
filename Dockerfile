@@ -12,4 +12,5 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -o statcollector .
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /go/src/github.com/vistrcm/statcollector/statcollector /usr/local/bin/
-ENTRYPOINT statcollector
+# array in etrypoint is a dirty hack to be able to pass parameters via CMD later
+ENTRYPOINT ["statcollector"]
