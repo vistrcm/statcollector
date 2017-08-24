@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/mgo.v2"
 	"html"
 	"io"
 	"io/ioutil"
@@ -16,7 +17,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 //createHandler handles records creation
-func createHandler(w http.ResponseWriter, r *http.Request) {
+func createHandler(w http.ResponseWriter, r *http.Request, session *mgo.Session) {
 
 	record, err := newRecord(r)
 
@@ -64,4 +65,15 @@ func newRecord(r *http.Request) (*record, error) {
 	}
 
 	return record, nil
+}
+
+//makeHandler helps to pass mongo session to handle and makes sure that this is a copy of session
+func makeHandler(fn func(http.ResponseWriter, *http.Request, *mgo.Session), session *mgo.Session) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// make new session
+		newSession := session.Copy()
+		defer newSession.Close()
+
+		fn(w, r, newSession)
+	}
 }

@@ -3,10 +3,12 @@ package main
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"gopkg.in/mgo.v2"
 	"time"
 )
 
-func newRouter() *chi.Mux {
+//newRouter creates chi router and pass mongo session to handlers
+func newRouter(session *mgo.Session) *chi.Mux {
 	// Configure http routing
 	r := chi.NewRouter()
 	// A good base middleware stack
@@ -24,7 +26,7 @@ func newRouter() *chi.Mux {
 	// RESTy routes for "data" resource
 	r.Route("/data", func(r chi.Router) {
 		r.Get("/", indexHandler)
-		r.Post("/", createHandler)
+		r.Post("/", makeHandler(createHandler, session))
 	})
 
 	return r

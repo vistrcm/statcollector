@@ -28,7 +28,7 @@ func main() {
 	}
 	defer session.Close()
 
-	router := newRouter()
+	router := newRouter(session)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
