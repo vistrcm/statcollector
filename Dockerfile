@@ -2,6 +2,10 @@
 FROM golang:1.8.3 as builder
 WORKDIR /go/src/github.com/vistrcm/statcollector/
 COPY ./ .
+# handle dependencies
+RUN go get -u github.com/kardianos/govendor
+RUN govendor sync
+# build
 RUN go build -a -o statcollector .
 
 # build image phase
