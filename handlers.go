@@ -17,15 +17,35 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 //createHandler handles records creation
 func createHandler(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 20*1024*1024)) // Let's read max 20 Mb
+
+	record, err := newRecord(r)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	if err := r.Body.Close(); err != nil {
+	log.Printf("Creating record: %+v", record)
+
+	//TODO: save record here
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusCreated)
+
+	if err := json.NewEncoder(w).Encode(record); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+}
+
+func newRecord(r *http.Request) (*record, error) {
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 20*1024*1024)) // Let's read max 20 Mb
+	if err != nil {
+		return nil, err
+	}
+
+	if err := r.Body.Close(); err != nil {
+		return nil, err
 	}
 
 	// will try to parse data. If it is valid json save parsed
@@ -43,15 +63,5 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 		Data:      parsed,
 	}
 
-	log.Printf("Create record: %+v", record)
-
-	//TODO: save record here
-
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusCreated)
-
-	if err := json.NewEncoder(w).Encode(record); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	return record, nil
 }
