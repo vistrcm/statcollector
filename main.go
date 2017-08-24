@@ -22,7 +22,8 @@ func createRecord(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// get Mongo Session
-	session, err := mgo.Dial("mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@localhost/stats")
+	session, err := mgo.Dial("mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@mongo/stats")
+	// session, err := mgo.Dial("mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@localhost/stats")
 	if err != nil {
 		panic(err)
 	}
