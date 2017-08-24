@@ -37,10 +37,10 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	record := &record{
-		Timestamp:  time.Now().UnixNano(),
-		RawData:    body,
-		StringData: string(body),
-		Data:       parsed,
+		Timestamp: time.Now().UnixNano(),
+		Raw:       body,
+		String:    string(body),
+		Data:      parsed,
 	}
 
 	log.Printf("Create record: %+v", record)

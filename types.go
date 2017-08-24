@@ -1,15 +1,8 @@
 package main
 
-import "fmt"
-
 type record struct {
-	Timestamp int64
-	RawData []byte
-	StringData string
-	Data interface{}
-}
-
-
-func (r *record) show() {
-	fmt.Printf("record. Time: %d. Data %q", r.Timestamp, r.Data)
+	Timestamp int64       `json:"timestamp"`
+	Raw       []byte      `json:"raw"`
+	String    string      `json:"string"`
+	Data      interface{} `json:"data"`
 }
