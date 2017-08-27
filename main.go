@@ -8,21 +8,21 @@ import (
 	"net/http"
 )
 
-var mongoUrl string
+var mongoURL string
 
 //initialize application
 func initialize() {
 	//	parse flags
-	flag.StringVar(&mongoUrl, "mongoUrl", "mongodb://localhost/stats", "db url")
+	flag.StringVar(&mongoURL, "mongoUrl", "mongodb://localhost/stats", "db url")
 	flag.Parse()
 }
 
 func main() {
 	initialize()
-	log.Printf("starting with db url %q", mongoUrl)
+	log.Printf("starting with db url %q", mongoURL)
 
 	// get Mongo Session
-	session, err := mgo.Dial(mongoUrl)
+	session, err := mgo.Dial(mongoURL)
 	if err != nil {
 		panic(err)
 	}
