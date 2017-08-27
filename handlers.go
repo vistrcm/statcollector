@@ -14,7 +14,7 @@ import (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q. Collection : %q\n", html.EscapeString(r.URL.Path))
+	fmt.Fprintf(w, "Hello, %q.\n", html.EscapeString(r.URL.Path))
 }
 
 //createHandler handles records creation
