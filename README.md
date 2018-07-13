@@ -4,7 +4,7 @@ Simple web interface to mongo. Currently, it just saving records, may be useful 
 **Does not provide an interface to retrieve data for now.**
 
 ## interface
-Main endpoint is `/{collection_name}` for example `/users/`.
+Main endpoint is `/{collection_name}` for example `/users`.
 
 POST requests to this endpoint accept JSON data.
 Application annotates data with a timestamp and saves into the corresponding collection.
