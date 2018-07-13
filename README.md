@@ -9,6 +9,8 @@ Main endpoint is `/{collection_name}` for example `/users/`.
 POST requests to this endpoint accept JSON data.
 Application annotates data with a timestamp and saves into the corresponding collection.
 
+Database to store data is specified by `mongoUrl` parameter. Default `mongodb://mongo/stats`. 
+
 ## usage example
 Here short explanation how to start service and add data to the collections.
 
