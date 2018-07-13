@@ -2,7 +2,7 @@
 Simple web interface to mongo. Can save records for now.
 May be useful to collect analytics data.
 
-**Does not provide any interface to get data for now.**
+**Does not provide any interface to retrieve data for now.**
 
 ## interface
 Main endpoint is `/{collection_name}` for example `/users/`.
