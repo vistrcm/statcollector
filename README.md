@@ -1,8 +1,14 @@
 # statcollector
-Simple web interface to mongo. Can save records for now. May be useful for analytics.
+Simple web interface to mongo. Can save records for now.
+May be useful to collect analytics data.
+
+**Does not provide any interface to get data for now.**
 
 ## interface
+Main endpoint is `/{collection_name}` for example `/users/`.
 
+POST requests to this endpoint accepts json data.
+Application annotates data with timestamp and saves into corresponding collection.
 
 ## usage example
 Here short explanation how to start service and add data to the collections.
@@ -27,7 +33,7 @@ config  0.000GB
 local   0.000GB
 >
 ```
-So DB is empty.
+We see default mongo setup here.
 
 Let's send next json into collection "users"
 ```json
