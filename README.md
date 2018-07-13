@@ -1,6 +1,5 @@
 # statcollector
-Simple web interface to mongo. Can save records for now.
-Currently, it just saving records, may be useful to collect analytics data.
+Simple web interface to mongo. Currently, it just saving records, may be useful to collect analytics data.
 
 **Does not provide an interface to retrieve data for now.**
 
