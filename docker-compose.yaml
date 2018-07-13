@@ -9,6 +9,7 @@ services:
       - ./mongofiles:/data/db
   collector:
     build: ./
+    image: vistrcm/statcollector
     depends_on:
       - mongo
     ports:
