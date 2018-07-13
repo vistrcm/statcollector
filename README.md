@@ -18,9 +18,9 @@ $ docker-compose up
 ```
 This will start collector application on port 8080 and MongoDB to store the data.
 
-Check data in the database:
+Check data in the database by starting mongo CLI inside mongo container:
 ```bash
-$ mongo
+$ docker-compose exec mongo mongo
 MongoDB shell version v4.0.0
 connecting to: mongodb://127.0.0.1:27017
 MongoDB server version: 4.0.0
@@ -44,27 +44,43 @@ Let's send next JSON into collection "users"
 ```
 will use [httpie](https://httpie.org/) for this:
 ```bash
-$ http http://localhost:8080/users name=vasily action=registered id=100500
-HTTP/1.1 201 Created
-Content-Length: 266
-Content-Type: application/json; charset=UTF-8
-Date: Fri, 13 Jul 2018 02:22:13 GMT
+$ http -v http://localhost:8080/users name=vasily action=registered id=100500
+  POST /users HTTP/1.1
+  Accept: application/json, */*
+  Accept-Encoding: gzip, deflate
+  Connection: keep-alive
+  Content-Length: 58
+  Content-Type: application/json
+  Host: localhost:8080
+  User-Agent: HTTPie/0.9.9
+  
+  {
+      "action": "registered",
+      "id": "100500",
+      "name": "vasily"
+  }
+  
+  HTTP/1.1 201 Created
+  Content-Length: 266
+  Content-Type: application/json; charset=UTF-8
+  Date: Fri, 13 Jul 2018 02:54:56 GMT
+  
+  {
+      "data": {
+          "action": "registered",
+          "id": "100500",
+          "name": "vasily"
+      },
+      "raw": "eyJuYW1lIjogInZhc2lseSIsICJhY3Rpb24iOiAicmVnaXN0ZXJlZCIsICJpZCI6ICIxMDA1MDAifQ==",
+      "string": "{\"name\": \"vasily\", \"action\": \"registered\", \"id\": \"100500\"}",
+      "timestamp": 1531450496716258600
+  }
 
-{
-    "data": {
-        "action": "registered",
-        "id": "100500",
-        "name": "vasily"
-    },
-    "raw": "eyJuYW1lIjogInZhc2lseSIsICJhY3Rpb24iOiAicmVnaXN0ZXJlZCIsICJpZCI6ICIxMDA1MDAifQ==",
-    "string": "{\"name\": \"vasily\", \"action\": \"registered\", \"id\": \"100500\"}",
-    "timestamp": 1531448533554435600
-}
 ```
 
 Check data again:
 ```bash
-$ mongo
+$ docker-compose exec mongo mongo
 MongoDB shell version v4.0.0
 connecting to: mongodb://127.0.0.1:27017
 MongoDB server version: 4.0.0
@@ -86,8 +102,8 @@ switched to db stats
 users
 > db.users.find().pretty()
 {
-	"_id" : ObjectId("5b480cd5b2af390b507f5501"),
-	"timestamp" : NumberLong("1531448533554435600"),
+	"_id" : ObjectId("5b4814803c37e523005bfaed"),
+	"timestamp" : NumberLong("1531450496716258600"),
 	"raw" : BinData(0,"eyJuYW1lIjogInZhc2lseSIsICJhY3Rpb24iOiAicmVnaXN0ZXJlZCIsICJpZCI6ICIxMDA1MDAifQ=="),
 	"string" : "{\"name\": \"vasily\", \"action\": \"registered\", \"id\": \"100500\"}",
 	"data" : {
