@@ -1,5 +1,5 @@
 # build application phase
-FROM golang:1.8.3 as builder
+FROM golang:1.10 as builder
 WORKDIR /go/src/github.com/vistrcm/statcollector/
 COPY ./ .
 # handle dependencies
