@@ -1,5 +1,5 @@
 # statcollector
-simple web app to save data in to mongodb
+Simple web interface to mongo. Can save records for now. May be useful for analytics.
 
 ## interface
 
