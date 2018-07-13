@@ -1,23 +1,23 @@
 # statcollector
 Simple web interface to mongo. Can save records for now.
-Currently it just saving records, may be useful to collect analytics data.
+Currently, it just saving records, may be useful to collect analytics data.
 
-**Does not provide any interface to retrieve data for now.**
+**Does not provide an interface to retrieve data for now.**
 
 ## interface
 Main endpoint is `/{collection_name}` for example `/users/`.
 
-POST requests to this endpoint accepts json data.
-Application annotates data with timestamp and saves into corresponding collection.
+POST requests to this endpoint accept JSON data.
+Application annotates data with a timestamp and saves into the corresponding collection.
 
 ## usage example
 Here short explanation how to start service and add data to the collections.
 
 ### start instance
 ```bash
-docker-compose up
+$ docker-compose up
 ```
-This will start collector application on port 8080 and mongodb to store the data.
+This will start collector application on port 8080 and MongoDB to store the data.
 
 Check data in the database:
 ```bash
@@ -33,9 +33,9 @@ config  0.000GB
 local   0.000GB
 >
 ```
-We see default mongo setup here.
+You can see default mongo setup here.
 
-Let's send next json into collection "users"
+Let's send next JSON into collection "users"
 ```json
 {
   "name": "vasily",
@@ -45,7 +45,7 @@ Let's send next json into collection "users"
 ```
 will use [httpie](https://httpie.org/) for this:
 ```bash
-http http://localhost:8080/users name=vasily action=registered id=100500
+$ http http://localhost:8080/users name=vasily action=registered id=100500
 HTTP/1.1 201 Created
 Content-Length: 266
 Content-Type: application/json; charset=UTF-8
@@ -65,7 +65,7 @@ Date: Fri, 13 Jul 2018 02:22:13 GMT
 
 Check data again:
 ```bash
-mongo
+$ mongo
 MongoDB shell version v4.0.0
 connecting to: mongodb://127.0.0.1:27017
 MongoDB server version: 4.0.0
@@ -79,7 +79,7 @@ stats   0.000GB
 >
 ```
 
-New database `stats` created. Let's examine it.
+New database `stats` created. Let's examine it in mongo console:
 ```
 > use stats;
 switched to db stats
