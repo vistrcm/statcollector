@@ -4,7 +4,7 @@ services:
     image: mongo
     ports:
       - 27017:27017
-    command: "--storageEngine wiredTiger --auth"
+    command: "--storageEngine wiredTiger"
     volumes:
       - ./mongofiles:/data/db
   collector:
@@ -13,4 +13,4 @@ services:
       - mongo
     ports:
       - 8080:8080
-    command: "--mongoUrl mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@mongo/stats"
+    command: "--mongoUrl mongodb://mongo/stats"
