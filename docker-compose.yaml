@@ -4,7 +4,6 @@ services:
     image: mongo:4
     ports:
       - 27017:27017
-    command: "--storageEngine wiredTiger"
     volumes:
       - ./mongofiles:/data/db
   collector:
