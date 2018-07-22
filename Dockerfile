@@ -14,7 +14,7 @@ COPY ./ .
 RUN echo "installing deps" \
     && dep ensure -v \
     && echo "let'd do some linting" \
-    && gometalinter --vendor ./...
+    && gometalinter --deadline=300s --vendor ./...
 # build with specific params to avoid issues of running in alpine
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -o statcollector .
 
