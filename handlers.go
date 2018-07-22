@@ -14,7 +14,10 @@ import (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q.\n", html.EscapeString(r.URL.Path))
+	_, err := fmt.Fprintf(w, "Hello, %q.\n", html.EscapeString(r.URL.Path))
+	if err != nil {
+		log.Printf("[ERROR] something happened on index response: %v\n", err)
+	}
 }
 
 //createHandler handles records creation
