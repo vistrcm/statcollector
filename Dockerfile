@@ -1,10 +1,20 @@
 # build application phase
 FROM golang:1.10 as builder
+
+## handle dependencies and linting
+RUN echo "installing required packages" \
+    && go get -v -u github.com/golang/dep/cmd/dep\
+    && go get -v -u github.com/alecthomas/gometalinter \
+    && gometalinter --install
+
 WORKDIR /go/src/github.com/vistrcm/statcollector/
 COPY ./ .
-# handle dependencies
-RUN go get -u github.com/kardianos/govendor
-RUN govendor sync
+
+## handle dependencies and linting
+RUN echo "installing deps" \
+    && dep ensure -v \
+    && echo "let'd do some linting" \
+    && gometalinter --vendor ./...
 # build with specific params to avoid issues of running in alpine
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -o statcollector .
 
