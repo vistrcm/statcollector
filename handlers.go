@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
-	"gopkg.in/mgo.v2"
+	"labix.org/v2/mgo"
 	"html"
 	"io"
 	"io/ioutil"

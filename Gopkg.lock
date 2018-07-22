@@ -11,20 +11,18 @@
   version = "v3.3.2"
 
 [[projects]]
-  branch = "v2"
-  name = "gopkg.in/mgo.v2"
+  branch = "(default)"
+  name = "labix.org/v2/mgo"
   packages = [
     ".",
     "bson",
-    "internal/json",
-    "internal/sasl",
-    "internal/scram"
+    "sasl"
   ]
-  revision = "9856a29383ce1c59f308dd1cf0363a79b5bef6b5"
+  revision = "gustavo@niemeyer.net-20140701140051-90be2tvk93pcczzi"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "50ce38a78656786f764323c3c841f82dafea4bc295abd5a4b155c145903c7378"
+  inputs-digest = "181f394f9b09efa82b3ecdd770089c1c573a8153e7da0590e21991a92274133a"
   solver-name = "gps-cdcl"
   solver-version = 1

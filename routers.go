@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"gopkg.in/mgo.v2"
+	"labix.org/v2/mgo"
 	"time"
 )
 

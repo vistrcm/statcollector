@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"flag"
-	"gopkg.in/mgo.v2"
+	"labix.org/v2/mgo"
 	"net/http"
 )
 
