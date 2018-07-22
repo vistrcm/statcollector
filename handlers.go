@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"strings"
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,13 +39,24 @@ func createHandler(w http.ResponseWriter, r *http.Request, collection *mgo.Colle
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	r.URL.Query()
+
 	w.WriteHeader(http.StatusCreated)
 
-	if err := json.NewEncoder(w).Encode(record); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	if vals, ok := r.URL.Query()["sendback"]; ok {
+		for _, element := range vals {
+			if strings.ToLower(element) == "true" {
+				w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+				if err := json.NewEncoder(w).Encode(record); err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			}
+		}
+
 	}
+
+
 }
 
 func newRecord(r *http.Request) (*record, error) {
