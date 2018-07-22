@@ -46,7 +46,7 @@ Let's send next JSON into collection "users"
 ```
 will use [httpie](https://httpie.org/) for this:
 ```bash
-$ http -v http://localhost:8080/users name=vasily action=registered id=100500
+$ http -v http://localhost:8080/users\?sendback\=true name=vasily action=registered id=100500
   POST /users HTTP/1.1
   Accept: application/json, */*
   Accept-Encoding: gzip, deflate
@@ -77,8 +77,9 @@ $ http -v http://localhost:8080/users name=vasily action=registered id=100500
       "string": "{\"name\": \"vasily\", \"action\": \"registered\", \"id\": \"100500\"}",
       "timestamp": 1531450496716258600
   }
-
 ```
+Note `sendback` parameter is set to `true`. Without it, server returns an empty response body.
+
 
 Check data again:
 ```bash
