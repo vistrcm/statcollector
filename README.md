@@ -117,3 +117,53 @@ users
 }
 >
 ```
+
+## setup mongo auth
+Start mongo with additional environment variables to set admin password:
+```bash
+docker-compose run -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=somepass mongo
+```
+
+Wait for next lines
+```text
+MongoDB init process complete; ready for start up.
+...
+...
+...
+2018-07-21T00:57:28.027+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+```
+
+Connect in a separate terminal. We are using `statcollector_mongo_run_1` - id of the container from docker run above.
+```bash
+docker exec -it statcollector_mongo_run_1 mongo -u admin -p somepass admin
+```
+
+In the mongo shell create user for database `stats`
+```
+> use zeusstats;
+switched to db zeusstats
+> db.createUser(
+      {
+        user: "statsusr",
+        pwd: "aicaiR1iivahToh7cei7reeseeyaer",
+        roles: [ { role: "readWrite", db: "zeusstats" }]
+      }
+    )
+Successfully added user: {
+	"user" : "statsusr",
+	"roles" : [
+		{
+			"role" : "readWrite",
+			"db" : "zeusstats"
+		}
+	]
+}
+> exit
+bye
+```
+
+This will close mongo shell.
+
+Please stop mongo started on the first step by pressing `Control-C` in the first terminal.
+
+After that action, you can use `docker-compose up` to start the application.
