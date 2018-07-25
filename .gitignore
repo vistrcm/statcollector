@@ -5,3 +5,5 @@ mongofiles/
 
 # ignore vendor
 vendor/*/
+
+.env
