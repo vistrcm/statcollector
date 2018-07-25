@@ -140,13 +140,13 @@ docker exec -it statcollector_mongo_run_1 mongo -u admin -p somepass admin
 
 In the mongo shell create user for database `stats`
 ```
-> use zeusstats;
-switched to db zeusstats
+> use stats;
+switched to db stats
 > db.createUser(
       {
         user: "statsusr",
         pwd: "aicaiR1iivahToh7cei7reeseeyaer",
-        roles: [ { role: "readWrite", db: "zeusstats" }]
+        roles: [ { role: "readWrite", db: "stats" }]
       }
     )
 Successfully added user: {
@@ -154,7 +154,7 @@ Successfully added user: {
 	"roles" : [
 		{
 			"role" : "readWrite",
-			"db" : "zeusstats"
+			"db" : "stats"
 		}
 	]
 }
