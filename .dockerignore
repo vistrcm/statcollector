@@ -6,3 +6,5 @@ mongofiles/
 # ignore vendor
 vendor/*/
 !vendor/vendor.json
+
+.env
