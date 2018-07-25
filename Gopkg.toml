@@ -30,8 +30,8 @@
   version = "3.3.2"
 
 [[constraint]]
-  branch = "(default)"
-  name = "labix.org/v2/mgo"
+  branch = "v2"
+  name = "gopkg.in/mgo.v2"
 
 [prune]
   go-tests = true
