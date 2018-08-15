@@ -4,14 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"gopkg.in/mgo.v2"
 	"html"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 	"strings"
+	"time"
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +57,6 @@ func createHandler(w http.ResponseWriter, r *http.Request, collection *mgo.Colle
 
 	}
 
-
 }
 
 func newRecord(r *http.Request) (*record, error) {
@@ -82,9 +82,32 @@ func newRecord(r *http.Request) (*record, error) {
 		Raw:       body,
 		String:    string(body),
 		Data:      parsed,
+		Metadata:  getRequestMetadata(r),
 	}
 
 	return record, nil
+}
+func getRequestMetadata(r *http.Request) metadata {
+	request := request{
+		Method:           r.Method,
+		URL:              r.URL,
+		Proto:            r.Proto,
+		Header:           r.Header,
+		ContentLength:    r.ContentLength,
+		TransferEncoding: r.TransferEncoding,
+		Host:             r.Host,
+		Form:             r.Form,
+		PostForm:         r.PostForm,
+		MultipartForm:    r.MultipartForm,
+		Trailer:          r.Trailer,
+		RemoteAddr:       r.RemoteAddr,
+		RequestURI:       r.RequestURI,
+		RequestID:        middleware.GetReqID(r.Context()),
+	}
+
+	return metadata{
+		Request: request,
+	}
 }
 
 //makeHandler helps to pass mongo session to handle and makes sure that this is a copy of session
