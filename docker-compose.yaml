@@ -6,15 +6,28 @@ services:
     ports:
       - 27017:27017
     volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./mongofiles:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Ha1ohc1L
+      MONGO_INITDB_ROOT_PASSWORD: wahHeD5b
+      MONGO_INITDB_DATABASE: stats
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: Ha1ohc1L
+      ME_CONFIG_MONGODB_ADMINPASSWORD: wahHeD5b
+
   collector:
     build: ./
     image: vistrcm/statcollector
-    environment:
-      - MONGO_USER
-      - MONGO_PASS
+    restart: unless-stopped
     depends_on:
       - mongo
     ports:
       - 8080:8080
-    command: "--mongoUrl mongodb://${MONGO_USER}:${MONGO_PASS}@mongo/stats"
+    command: "--mongoUrl mongodb://collector:Ci1aTh1ooshiib6iepha4oongaeSho@mongo/stats"
